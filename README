@@ -1,0 +1,16 @@
+Service Framework
+=================
+
+This is a base module of Duckling, which provides a framework for
+building RESTful services.
+
+Add its .jar into your web applications. Maven is recommended.
+
+Refer to the subproject 'frmwrk-test', which shows the configuration
+within a webapp.
+
+In a nutshell, configure servlets in web.xml and take care of the
+config file 'Rest2Services.xml' and 'services.xml', respectively for
+the new and old version. They could be used at the same time.
+
+Good luck!

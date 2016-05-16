@@ -1,0 +1,14 @@
+Testing frmwrk
+==============
+
+1. Make the war.
+   $ mvn package -DskipTests
+
+2. Copy the war to tomcat's webapp, or something similar.
+
+3. Create the file needed by a Class of frmwrk.jar. (Ugly, but I bear
+   it for the moment.)
+   $ cp src/test/resources/upload1.txt /tmp/1.txt
+
+4. Run the test, actually.
+   $ mvn test

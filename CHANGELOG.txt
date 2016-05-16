@@ -1,0 +1,134 @@
+Service FrameWork (a base module of Duckling)
+=============================================
+
+Version 1.1.1
+-------------
+2016/5/15 nankai@cnic.ac.cn
+
+* Create a separate (sub)project for testing, a war; keep the original
+  one for jar, after investigation on maven-war-plugin
+  (attachClasses/archiveClasses).
+
+* Keep the structure of two config files: Rest2Services.xml /
+  services.xml; be careful when use them at the same time.
+
+Version 1.1
+-----------
+2016/5/12 nankai@cnic.ac.cn
+
+* Create pom.xml.
+* The package name remains to 'frmwork-1.1.jar'. ('frmwrk' may be better.)
+* Remove some files that seems useless from the project.
+* Release to github.
+
+(The previous versions have been maintained by xiejj@cnic.cn.)
+
+Version 1.0
+-----------
+
+* 修改了ServiceContext类，删除了对AppName和AppPassword的支持，这类验证
+  以后可以放到对应的服务中。
+* 修改了XStream类实例变量的存在方式，现在改
+  用静态变量，以便在多个实例间共享。
+* 升级了XStream包，修正了在多线程环
+  境下，共享XStream变量会引起异常的Bug。
+* 修改了服务器端代码，ServiceDispatcher现在只创建一份XStream实例变量。
+  以便在多个请求间共享，提高访问速度。
+* 修改了客户端的连接管理代码，现在使用新的连接池管理，提高远程代码的访
+  问速度。
+* 修改了服务的声明方式（旧方式还能使用），在新方式下，服务以Annotation
+  方式声明方法。
+* 增加了Filter机制.
+
+* 新的注册文件格式为：
+
+<?xml version="1.0" encoding="UTF-8"?>
+<ServiceConfig>
+	<service>
+	  <name>System</name>
+	  <class>cn.vlabs.rest.examples.ServerSystemService</class>
+	</service>
+	<filter>
+	  <name>permissionCheck</name>
+	  <class>cn.vlabs.rest.buildin.PermissionFilter</class>
+	  <init-param>
+	    <param-name>location</param-name>
+	    <param-value>/tmp</param-value>
+	  </init-param>
+	 </filter>
+	 <filter-mapping>
+	   <service></service>
+	   <service></service>
+	 </filter-mapping>
+</ServiceConfig>
+
+* 如要使用新接口，需要在web.xml中修改启动参数，增加
+  <init-param>
+    <param-name>version</param-name>
+    <param-value>1.0</param-value>
+  </init-param> 
+
+* 在新接口中，修改了文件接口的定义方式，Framework包将自己管理文件的上传
+  下载功能。
+
+Version 0.7
+-----------
+
+* 新增了CloseableService的接口
+* 修正了没有正确的关闭http连接的问题。
+	新的调用方法为:
+	ServiceContext context=new ServiceContext();
+	context.setKeepAlive(true);
+	try{
+		//Do your work
+	}finally{
+		context.close();
+	}
+	
+Version 0.6
+-----------
+
+* 修正了无法传输正确的文件名的情况，需要配合修改后的HttpClient 3.0.1
+  Jar包使用。
+* 增加了设置编码的方法，调用方法为ServiceClient.setEncode()。缺省的编码
+  为UTF-8。
+
+Version 0.5
+-----------
+
+* 强化了Echo功能，现在通过SystemService.echo可以调用回显操作。
+* 增加了获取框架版本信息的功能(SystemService.getFrameInfo())。
+* 修改了Services.xml，修改后结果为
+	<?xml version="1.0" encoding="UTF-8"?>
+	<ServiceConfig>
+	<validator>cn.vlabs.rest.examples.NullValidator</validator>
+	<!-- API包的类型，请每个应用自行改变 -->
+	<type>clb</type>
+	<!-- API包的版本，请每个应用自行改变 -->
+	<version>4.1.7</version>
+	<entires>
+	  <Service>
+	  	<!-- 这个服务是回显服务，用于测试连接状态 -->
+	    <servicename>System.echo</servicename>
+	    <clazz>cn.vlabs.rest.examples.EchoService</clazz>
+	    <validAppAuth>false</validAppAuth>
+	  </Service>
+	  <Service>
+	  	<!-- 这个服务显示服务信息，包括API版本，类型和框架的版本 -->
+	  	<servicename>System.info</servicename>
+	  	<clazz>cn.vlabs.rest.examples.SystemInfo</clazz>
+	  	<validAppAuth>false</validAppAuth>
+	  </Service>
+	  <Service>
+	    <servicename>System.upload</servicename>
+	    <clazz>cn.vlabs.rest.examples.UploadFile</clazz>
+	    <validAppAuth>false</validAppAuth>
+	  </Service>
+	 </entires>
+	</ServiceConfig>
+
+	
+Version 0.4
+-----------
+
+* 修正了原来的文件上传部分代码。使得文件上传可以使用。

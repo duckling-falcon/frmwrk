@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+	 xmlns="http://java.sun.com/xml/ns/j2ee" 
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+			     http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+  <!-- New version  -->
+  <servlet>
+    <servlet-name>NewService</servlet-name>
+    <servlet-class>cn.vlabs.rest.server.ServiceServlet</servlet-class>
+    <init-param>
+      <description>这个是Rest Service框架的配置文件</description>
+      <param-name>config</param-name>
+      <param-value>WEB-INF/conf/Rest2Services.xml</param-value>
+    </init-param>
+    <!-- This param 'version' must be 1.0 in order for compatibility -->
+    <init-param>
+      <param-name>version</param-name>
+      <param-value>1.0</param-value>
+    </init-param>
+    <init-param>
+      <param-name>charset</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <!-- Old version -->
+  <servlet>
+    <servlet-name>OldService</servlet-name>
+    <servlet-class>cn.vlabs.rest.server.ServiceServlet</servlet-class>
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>WEB-INF/conf/services.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>charset</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>NewService</servlet-name>
+    <url-pattern>/Service</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OldService</servlet-name>
+    <url-pattern>/ServiceServlet</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

@@ -1,0 +1,38 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.duckling</groupId>
+  <artifactId>frmwrk-test</artifactId>
+  <version>0.1</version>
+  <packaging>war</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>net.duckling</groupId>
+      <artifactId>frmwork</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.10</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>frmwrk</finalName>
+    <plugins>
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-compiler-plugin</artifactId>
+	<version>2.3.2</version>
+	<configuration>
+	  <encoding>UTF-8</encoding>
+	  <source>1.7</source>
+	  <target>1.7</target>
+	</configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

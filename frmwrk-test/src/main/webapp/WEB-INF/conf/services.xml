@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ServiceConfig>
+<validator>cn.vlabs.rest.examples.NullValidator</validator>
+<!-- API包的类型，请每个应用自行改变 -->
+<type>clb</type>
+<!-- API包的版本，请每个应用自行改变 -->
+<version>4.1.7</version>
+<entires>
+  <Service>
+  	<!-- 这个服务是回显服务，用于测试连接状态 -->
+    <servicename>System.echo</servicename>
+    <clazz>cn.vlabs.rest.examples.action.EchoService</clazz>
+    <validAppAuth>false</validAppAuth>
+  </Service>
+  <Service>
+  	<!-- 这个服务是回显服务，用于测试连接状态 -->
+    <servicename>System.version</servicename>
+    <clazz>cn.vlabs.rest.examples.action.VersionService</clazz>
+    <validAppAuth>false</validAppAuth>
+  </Service>
+  <Service>
+    <servicename>System.upload</servicename>
+    <clazz>cn.vlabs.rest.examples.action.UploadFile</clazz>
+    <validAppAuth>false</validAppAuth>
+  </Service>
+ </entires>
+</ServiceConfig>
