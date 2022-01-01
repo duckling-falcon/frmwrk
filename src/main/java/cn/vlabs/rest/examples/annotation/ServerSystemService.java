@@ -16,6 +16,7 @@
  * limitations under the License. 
  *
  */
+
 package cn.vlabs.rest.examples.annotation;
 
 import javax.servlet.ServletContext;
@@ -27,6 +28,7 @@ import cn.vlabs.rest.server.annotation.Init;
 import cn.vlabs.rest.server.annotation.RestMethod;
 
 public class ServerSystemService {
+    
 	@Init
 	public void init(ServletContext context){
 	    // System.out.println("Init method is called. Context path ="+context.getContextPath());
@@ -48,13 +50,13 @@ public class ServerSystemService {
 	}
 
 	@RestMethod("testSession")
-	public String getMethod(RestSession session, String message){
-		System.out.println(session.toString());
-		return message;
+	public String getSessionInfo(RestSession session){
+		return session.toString();
 	}
 
 	@RestMethod("add")
 	public int add(int a, int b){
 		return a+b;
 	}
+    
 }

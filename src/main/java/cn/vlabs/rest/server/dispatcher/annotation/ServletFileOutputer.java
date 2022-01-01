@@ -16,6 +16,7 @@
  * limitations under the License. 
  *
  */
+
 package cn.vlabs.rest.server.dispatcher.annotation;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Base64;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,8 +35,9 @@ public class ServletFileOutputer {
 	private static final int DEFAULT_BUFF_SIZE = 4096;
 
 	public static void dumpFile(HttpServletRequest request,
-			HttpServletResponse response, IResource resource)
-			throws IOException {
+                                HttpServletResponse response,
+                                IResource resource
+                                ) throws IOException {
 		preprocess(request, response, resource);
 		OutputStream out = response.getOutputStream();
 		InputStream in = resource.getInputStream();
@@ -51,7 +54,8 @@ public class ServletFileOutputer {
 	}
 
 	private static void preprocess(HttpServletRequest request,
-			HttpServletResponse response, IResource resource) {
+                                   HttpServletResponse response,
+                                   IResource resource) {
 		String agent = request.getHeader("user-agent");
 		response.setHeader("Pragma", "");
 		response.setHeader("Cache-Control", "");
@@ -60,7 +64,7 @@ public class ServletFileOutputer {
 	}
 
 	private static void setFileName(String fname, String agent,
-			HttpServletResponse response) {
+                                    HttpServletResponse response) {
 		String suffix = MimeType.getSuffix(fname);
 		// response.setCharacterEncoding("UTF-8");
 
@@ -68,20 +72,21 @@ public class ServletFileOutputer {
 		response.setContentType(MimeType.getContentType(suffix));
 		try {
 			// 浏览器端存储的文件名
-			if (isFirefox(agent))
-				fname = javax.mail.internet.MimeUtility.encodeText(fname,
-						"UTF-8", "B");
-			else if (isIE(agent)) {
+			if (isFirefox(agent)) {
+                fname = Base64.getEncoder()
+                        .encodeToString(fname.getBytes("UTF-8"));
+            } else if (isIE(agent)) {
 				String codedFname = URLEncoder.encode(fname, "UTF-8");
 				codedFname = codedFname.replaceAll("+", "%20");
 				if (codedFname.length() > 150) {
 					codedFname = new String(fname.getBytes("GBK"), "ISO8859-1");
 				}
 				fname = codedFname;
-			} else
+			} else {
 				fname = URLEncoder.encode(fname, "UTF-8");
-			response.setHeader("Content-Disposition", "attachment;filename=\""
-					+ fname + "\"");
+            }
+			response.setHeader("Content-Disposition",
+                               "attachment;filename=\"" + fname + "\"");
 		} catch (UnsupportedEncodingException e) {
 		}
 	}
@@ -93,4 +98,5 @@ public class ServletFileOutputer {
 	private static boolean isIE(String agent) {
 		return agent != null && agent.contains("MSIE");
 	}
+    
 }

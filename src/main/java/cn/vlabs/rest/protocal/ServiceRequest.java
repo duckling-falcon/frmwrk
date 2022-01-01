@@ -33,7 +33,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.log4j.Logger;
 
-import cn.vlabs.rest.server.dispatcher.claasic.ServiceDispatcher;
+import cn.vlabs.rest.server.dispatcher.classic.ServiceDispatcher;
 import cn.vlabs.rest.stream.IResource;
 import cn.vlabs.rest.stream.StreamInfo;
 

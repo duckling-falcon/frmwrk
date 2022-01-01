@@ -16,7 +16,7 @@
  * limitations under the License. 
  *
  */
-package cn.vlabs.rest.server.dispatcher.claasic;
+package cn.vlabs.rest.server.dispatcher.classic;
 
 import java.io.File;
 import java.io.FileInputStream;
