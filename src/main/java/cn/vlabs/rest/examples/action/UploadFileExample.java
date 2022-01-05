@@ -17,52 +17,35 @@
  *
  */
 
-package cn.vlabs.rest.examples.annotation;
+package cn.vlabs.rest.examples.action;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-import cn.vlabs.rest.server.annotation.RestMethod;
-import cn.vlabs.rest.stream.IResource;
-import cn.vlabs.rest.stream.StreamInfo;
+import cn.vlabs.rest.RestSession;
+import cn.vlabs.rest.ServiceException;
+import cn.vlabs.rest.ServiceWithInputStream;
 
-public class FileExample {
-
-    // It's service who reads, i.e. uploading
-	@RestMethod("readFile")
-	public String readFile(String request, IResource resource) {
-		InputStream in = resource.getInputStream();
+public class UploadFileExample extends ServiceWithInputStream {
+	public Object doAction(RestSession session, Object request) throws ServiceException {
+		InputStream in =this.getStream().getInputStream();
 		BufferedReader reader;
 		try {
 			reader = new BufferedReader(new InputStreamReader(in, "utf-8"));
 			try {
 				String line = reader.readLine();
 				reader.close();
-				return request + line;
+				return request+line;
 			} catch (IOException e) {
-				System.err.println("Error while reading file");
+				System.out.println("Error while reading file");
 			}
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace(System.err);
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
 		}
 		return "";
 	}
 
-    // It's service who writes, i.e. downloading
-	@RestMethod("writeFile")
-	public IResource writeFile(String fn) throws FileNotFoundException{
-		File f = new File(fn);
-        StreamInfo stream = new StreamInfo();
-		stream.setFilename(fn);
-		stream.setLength(f.length());
-		stream.setMimeType("plain/text");
-		stream.setInputStream(new FileInputStream(f));
-		return stream;
-	}
 }

@@ -24,7 +24,7 @@ import javax.servlet.ServletContext;
 
 import cn.vlabs.rest.server.Dispatcher;
 import cn.vlabs.rest.server.dispatcher.annotation.AnnotationBasedDispatcher;
-import cn.vlabs.rest.server.dispatcher.claasic.ServiceDispatcher;
+import cn.vlabs.rest.server.dispatcher.classic.ServiceDispatcher;
 
 public class DispatcherFactory {
 	public static Dispatcher getDispatcher(ServletContext context, String version, String configFile) throws IOException{

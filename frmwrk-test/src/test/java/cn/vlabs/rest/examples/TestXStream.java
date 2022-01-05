@@ -16,8 +16,10 @@
  * limitations under the License. 
  *
  */
+
 package cn.vlabs.rest.examples;
 
+import org.junit.Test;
 import static org.junit.Assert.assertNotNull;
 
 import com.thoughtworks.xstream.XStream;
@@ -27,7 +29,8 @@ public class TestXStream {
 	private XStream stream =new XStream();
 	private String xml;
 	private int count=1000;
-	public TestXStream(){
+
+	public TestXStream() {
 		stream = new XStream();
 		stream.processAnnotations(Person.class);
 		Person p = new Person();
@@ -35,18 +38,20 @@ public class TestXStream {
 		p.age=100;
 		xml = stream.toXML(p);
 	}
-	
+
+    @Test
 	public void run(){
 		for (int i=0;i<10;i++){
 			MultiThreadRunner runner = new MultiThreadRunner(count, new RunnableFactory(){
-				public Runnable createRunnable(int index) {
-					return new Reader(index);
-				}
-			});
+                    public Runnable createRunnable(int index) {
+                        return new Reader(index);
+                    }
+                });
 			runner.start();
 		}
 		System.out.println("All finished.");		
 	}
+    
 	private class Reader implements Runnable{
 		private int seq;
 		public Reader(int seq){
@@ -82,8 +87,5 @@ public class TestXStream {
 			return "MyName is "+name+", age is "+age;
 		}
 	}
-	public static void main(String[] args){
-		TestXStream tester = new TestXStream();
-		tester.run();
-	}
+
 }
